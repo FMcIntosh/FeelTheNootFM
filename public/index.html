@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pingu  Interactive Sound Effects</title>
+    <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.25/paper-full.min.js"></script>
+    <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/howler/1.1.29/howler.min.js"></script>
+    <script   src="https://code.jquery.com/jquery-3.0.0.min.js"   integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="   crossorigin="anonymous"></script>
+    <script type="text/javascript" src = "assets/js/data.js"></script>
+     <script type="text/javascript" src = "assets/js/click.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+
+     <script type="text/paperscript" canvas="myCanvas">
+
+     var arr = [];
+     var canvas= $("canvas");
+     for (var property in KeyData) {
+      if (KeyData.hasOwnProperty(property)) {
+          canvas.append("<img src =" + KeyData[property].image + " id= '" + KeyData[property].id + "'>");
+       }
+      }
+
+       function onKeyDown(event) {
+           $("#inner").text("");
+          var maxPoint = new Point(view.bounds.width, view.bounds.height);
+          var point = maxPoint* Point.random();
+          if(KeyData[event.key]){
+              var pingu = new Raster(KeyData[event.key].id);
+                pingu.scale(5);
+                pingu.position = point;
+                arr.push(pingu);
+                KeyData[event.key].sound.play();
+          }
+        }
+
+       function onMouseDown(event){
+          $("#inner").text("");
+          var maxPoint = new Point(view.bounds.width, view.bounds.height);
+          var point = maxPoint* Point.random();
+          var rand  = randLetter()
+          var pingu = new Raster(KeyData[rand].id);
+          pingu.scale(5);
+          pingu.position = point;
+          arr.push(pingu);
+          KeyData[rand].sound.play();
+        }
+
+      function onFrame(event){
+        for(var i = 0; i < arr.length; i++){
+          arr[i].scale(0.92);
+          if(arr[i].area < 1){
+            arr[i].remove();
+            arr.splice(i, 1);
+          }
+        }
+      }
+
+     </script>
+  </head>
+  <body>
+
+    <div id = "outer"">
+      <div id="inner">
+        <p>Press any key or click the mouse to</p>
+        <img src="assets/images/home.jpg" id="home">
+        <h1>Feel The Noot</h1>
+      </div>
+    </div>
+
+   <canvas id="myCanvas" resize = "true"></canvas>
+
+  </body>
+</html>

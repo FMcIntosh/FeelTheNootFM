@@ -1,0 +1,1 @@
+function rand(r,n){return Math.floor(Math.random()*n+r)}function randLetter(){var r=rand(0,keys.length-1);return keys[r]}var keys=["q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","space"];
